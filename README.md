@@ -1,5 +1,7 @@
 # 🖼️ BG Remover - 去背小工具
 
+[![Deploy on Zeabur](https://zeabur.com/deploy.svg)](https://zeabur.com/new?template=https://github.com/Pan1191/bg-remover)
+
 Simple background removal tool powered by [rembg](https://github.com/danielgatis/rembg).
 
 ## Features
