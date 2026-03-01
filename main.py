@@ -1,9 +1,8 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException
-from fastapi.responses import Response
+from fastapi.responses import Response, FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from rembg import remove
-from PIL import Image
 import io
 
 app = FastAPI(title="BG Remover", description="Simple background removal tool")
@@ -17,10 +16,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/")
-async def root():
-    return {"message": "BG Remover API", "status": "running"}
-
+# API routes FIRST
 @app.post("/remove-bg")
 async def remove_background(file: UploadFile = File(...)):
     """Remove background from uploaded image"""
@@ -50,5 +46,10 @@ async def remove_background(file: UploadFile = File(...)):
 async def health():
     return {"status": "healthy"}
 
-# Serve static files (frontend)
-app.mount("/", StaticFiles(directory="static", html=True), name="static")
+# Serve index.html at root
+@app.get("/")
+async def root():
+    return FileResponse("static/index.html")
+
+# Serve other static files
+app.mount("/static", StaticFiles(directory="static"), name="static")
